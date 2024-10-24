@@ -21,13 +21,13 @@ jobs:
       - name: Configure AWS credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: arn:aws:iam::826223691807:role/terraformDemo # Replace with your IAM Role ARN
-          aws-region: us-east-1  # Change to your preferred AWS region
+          role-to-assume: ${{ secrets.AWS_DEV_ROLE_ARN }} #  IAM Role ARN
+          aws-region: ${{ secrets.AWS_REGION }}  # AWS region
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.5.0  # Adjust to the latest Terraform version
+          terraform_version: 1.9.8  
 
       - name: Terraform Init
         run: terraform init
