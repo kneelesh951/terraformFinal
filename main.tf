@@ -1,19 +1,15 @@
-provider "aws" {
-  region = "us-east-1"  # Change this to your preferred AWS region
-}
-
 resource "aws_s3_bucket" "in_bucket" {
-  bucket = "in"
+  bucket = "test-in-bucket-123456"
 }
 
 resource "aws_s3_bucket" "out_bucket" {
-  bucket = "out"
+  bucket = "test-out-bucket-123456"
 }
 
 resource "aws_s3_bucket" "tmp_bucket" {
-  bucket = "tmp"
+  bucket = "test-tmp-bucket-123456"
 }
 
 resource "aws_s3_bucket" "export_bucket" {
-  bucket = "export"
+  bucket = "test-export-bucket-123456"
 }
