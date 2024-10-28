@@ -1,6 +1,6 @@
 # main.tf
 
-# Specify the Terraform required version
+# Terraform required version
 terraform {
   required_providers {
     aws = {
@@ -11,6 +11,12 @@ terraform {
 
 # Call the S3 module
 module "s3_buckets" {
-  source = "./modules/s3"  # Path to your S3 module
-  source = "./modules/test_glue"  # Path to your glue module
+  source = "./modules/s3"  # Path to S3 module
+  
+}
+
+# Call the Glue module
+module "test_glue" {
+  source = "./modules/test_glue"  # Path to  Glue module
+  
 }
