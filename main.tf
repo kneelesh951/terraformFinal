@@ -1,6 +1,6 @@
 # main.tf
 
-# Specify the Terraform required version
+# Specify the Terraform required version.
 terraform {
   required_providers {
     aws = {
