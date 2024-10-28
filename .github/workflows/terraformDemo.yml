@@ -41,5 +41,5 @@ jobs:
 
       - name: Terraform Apply
         run: |
-          cd terraform  # Change to the terraform directory
+          
           terraform apply -auto-approve
