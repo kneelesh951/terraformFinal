@@ -3,7 +3,7 @@ name: Terraform Apply
 on:
   push:
     branches:
-      - dev  # Trigger on changes to the 'main' branch
+      - dev  # Trigger on changes to the 'dev' branch
 
 jobs:
   terraform:
@@ -30,10 +30,16 @@ jobs:
           terraform_version: 1.9.8  
 
       - name: Terraform Init
-        run: terraform init
+        run: |
+          cd terraform  # Change to the terraform directory
+          terraform init
 
       - name: Terraform Plan
-        run: terraform plan
+        run: |
+          cd terraform  # Change to the terraform directory
+          terraform plan
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: |
+          cd terraform  # Change to the terraform directory
+          terraform apply -auto-approve
