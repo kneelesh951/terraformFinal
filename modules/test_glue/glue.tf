@@ -1,3 +1,4 @@
+# create a role for aws_glue
 
 resource "aws_iam_role" "glue_role" {
   name = var.glue_job_name
@@ -16,9 +17,11 @@ resource "aws_iam_role" "glue_role" {
   })
 }
 
+# policy attachment
+
 resource "aws_iam_role_policy_attachment" "glue_s3_access" {
   role       = aws_iam_role.glue_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
 }
 
 resource "aws_iam_role_policy_attachment" "glue_service_access" {
@@ -26,6 +29,8 @@ resource "aws_iam_role_policy_attachment" "glue_service_access" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
 }
 
+
+# create glue job 
 
 resource "aws_glue_job" "my_glue_job" {
   name     = var.glue_job_name
