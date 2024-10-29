@@ -40,7 +40,7 @@ resource "aws_iam_role_policy_attachment" "attach_step_function_policy" {
 # Define the Step Function state machine using the existing IAM role ARN
 resource "aws_sfn_state_machine" "basic_step_function" {
   name     = "BasicStepFunction"
-  role_arn = data.aws_iam_role.step_function_role.arn  # Use the ARN from the IAM role data source
+  role_arn = data.aws_iam_role.step_function_role.arn  #  ARN from the IAM role data source
 
   definition = jsonencode({
     Comment = "A simple Step Function that says Hello, World!",
