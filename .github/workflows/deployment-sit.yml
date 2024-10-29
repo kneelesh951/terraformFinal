@@ -30,16 +30,13 @@ jobs:
           terraform_version: 1.9.8  
 
       - name: Terraform Init
-        run: |
-          
+        run: |          
           terraform init
 
       - name: Terraform Plan
-        run: |
-         
+        run: |         
           terraform plan
 
       - name: Terraform Apply
-        run: |
-          
+        run: |          
           terraform apply -auto-approve

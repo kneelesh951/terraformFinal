@@ -1,8 +1,6 @@
-# Variable for the existing role name
-variable "step_function_role_name" {
-  description = "Name of the existing IAM role for Step Functions"
-  type        = string
-  default     = "terraformDemo"  #  role name
+# Use an existing IAM role by fetching it with the data source
+data "aws_iam_role" "step_function_role" {
+  name = var.step_function_role_name  # Reference the role name variable
 }
 
 # Create a policy for Step Functions if needed
@@ -33,16 +31,16 @@ resource "aws_iam_policy" "step_function_policy" {
   })
 }
 
-# Attach the policy to the existing IAM role if needed
+# Attach the policy to the existing IAM role
 resource "aws_iam_role_policy_attachment" "attach_step_function_policy" {
-  role       = var.step_function_role_name
+  role       = data.aws_iam_role.step_function_role.name
   policy_arn = aws_iam_policy.step_function_policy.arn
 }
 
-# Use the existing IAM role by referencing its ARN directly
+# Define the Step Function state machine using the existing IAM role ARN
 resource "aws_sfn_state_machine" "basic_step_function" {
   name     = "BasicStepFunction"
-  role_arn = aws_iam_role.step_function_role.arn  # Use the existing role
+  role_arn = data.aws_iam_role.step_function_role.arn  # Use the ARN from the IAM role data source
 
   definition = jsonencode({
     Comment = "A simple Step Function that says Hello, World!",
