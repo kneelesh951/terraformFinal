@@ -1,7 +1,7 @@
  
  # main.tf
 
-# Specify the Terraform required version.
+# Terraform required version.
 terraform {
   required_providers {
     aws = {
@@ -22,6 +22,11 @@ terraform {
 # }
 
 # Call the step functions
- module "step_functions" {
-  source = "./modules/step_functions"  # Path to  Glue module 
+ # module "step_functions" {
+ #  source = "./modules/step_functions"  # Path to  Glue module 
+ # }
+
+ # Call the secrets manager
+ module "secrets_manager" {
+  source = "./modules/secrets_manager"  # Path to  Glue module 
  }

@@ -3,7 +3,7 @@ name: Terraform Apply
 on:
   push:
     branches:
-      - main  # Trigger on changes to the 'dev' branch
+      - main  # Trigger on changes to the 'Prod' branch
 
 jobs:
   terraform:

@@ -3,7 +3,7 @@ name: Terraform Apply
 on:
   push:
     branches:
-      - sit  # Trigger on changes to the 'dev' branch
+      - sit  # Trigger on changes to the 'SIT' branch
 
 jobs:
   terraform:
@@ -21,7 +21,7 @@ jobs:
       - name: Configure AWS credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: ${{ secrets.AWS_DEV_ROLE_ARN }} #  IAM Role ARN
+          role-to-assume: ${{ secrets.AWS_SIT_ROLE_ARN }} #  IAM Role ARN
           aws-region: ${{ secrets.AWS_REGION }}  # AWS region
 
       - name: Set up Terraform
