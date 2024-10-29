@@ -26,7 +26,12 @@ terraform {
  #  source = "./modules/step_functions"  # Path to  Glue module 
  # }
 
- # Call the secrets manager
- module "secrets_manager" {
-  source = "./modules/secrets_manager"  # Path to  Glue module 
+#  # Call the secrets manager
+#  module "secrets_manager" {
+#   source = "./modules/secrets_manager"  # Path to  Glue module 
+#  }
+
+  # Call the vpc manager
+ module "vpc" {
+  source = "./modules/vpc"  # Path to  Glue module 
  }
