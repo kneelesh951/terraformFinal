@@ -1,45 +1,60 @@
-name: Terraform Apply
+# Name of the workflow
+name: Terraform Apply for Development
 
+# Define when the workflow should be triggered
 on:
   push:
     branches:
-      - dev  # Trigger on changes to the 'dev' branch
+      - main  # Trigger the workflow when there are changes pushed to the 'main' branch
 
+# Define the job for the Terraform deployment
 jobs:
   terraform:
-    name: Terraform Apply
-    runs-on: ubuntu-latest
+    name: Terraform Apply to Development  # Job name for applying Terraform to the dev environment
+    runs-on: ubuntu-latest  # Run the job on the latest Ubuntu GitHub runner
 
+    # Set required permissions for accessing GitHub OIDC and AWS
     permissions:
-      id-token: write  # Required for OIDC.
-      contents: read
+      id-token: write  # Permission to issue an OpenID Connect (OIDC) token to authenticate to AWS
+      contents: read   # Access to read contents from the GitHub repository
 
+    # Specify the environment name configured in GitHub
+    environment:
+      name: dev  # Set to 'dev' to identify the GitHub environment and associate it with this job
+
+    # Steps to execute the job
     steps:
+      # Step 1: Check out the repository code
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3  # Uses the GitHub action to check out the code from the repository
 
+      # Step 2: Configure AWS credentials with OIDC for authentication
       - name: Configure AWS credentials using OIDC
-        uses: aws-actions/configure-aws-credentials@v3
+        uses: aws-actions/configure-aws-credentials@v3  # Use AWS action for setting credentials
         with:
-          role-to-assume: ${{ secrets.AWS_DEV_ROLE_ARN }} #  IAM Role ARN
-          aws-region: ${{ secrets.AWS_REGION }}  # AWS region
+          role-to-assume: ${{ secrets.AWS_DEV_ROLE_ARN }}  # IAM Role ARN for development environment (stored as a secret)
+          aws-region: ${{ secrets.AWS_REGION }}  # AWS region (stored as a secret)
 
+      # Step 3: Set up Terraform
       - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v2  # Use Terraform GitHub action for setup
         with:
-          terraform_version: 1.9.8  
+          terraform_version: 1.9.8  # Specify the Terraform version to use
 
+      # Step 4: Initialize Terraform (downloads modules, providers, etc.)
       - name: Terraform Init
         run: |
-          
-          terraform init
+          cd env/dev  # Navigate to the 'dev' environment directory
+          terraform init  # Initialize Terraform for the 'dev' environment
 
+      # Step 5: Plan the Terraform changes (outputs the actions Terraform will take)
       - name: Terraform Plan
         run: |
-         
-          terraform plan
+          cd env/dev  # Navigate to the 'dev' environment directory
+          terraform plan -var-file=dev.tfvars -var="environment=dev"  # Use the dev variable file for configuration
 
+      # Step 6: Apply the Terraform configuration (provisions the resources)
       - name: Terraform Apply
         run: |
-          
-          terraform apply -auto-approve
+          cd env/dev  # Navigate to the 'dev' environment directory
+          terraform apply -var-file=dev.tfvars -var="environment=dev" -auto-approve  # Apply with auto-approve for dev
