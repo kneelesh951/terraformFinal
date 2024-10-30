@@ -1,6 +1,12 @@
  
  # main.tf
 
+ variable "environment" {
+  description = "dev environment"
+  type        = string
+}
+
+
 # Terraform required version.
 terraform {
   required_providers {
