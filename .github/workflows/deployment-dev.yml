@@ -51,10 +51,10 @@ jobs:
       - name: Terraform Plan
         run: |
           cd env/dev  # Navigate to the 'dev' environment directory
-          terraform plan -var-file=dev.tfvars -var="environment=dev"  # Use the dev variable file for configuration
+          terraform plan -var-file=dev.tfvars
 
       # Step 6: Apply the Terraform configuration (provisions the resources)
       - name: Terraform Apply
         run: |
           cd env/dev  # Navigate to the 'dev' environment directory
-          terraform apply -var-file=dev.tfvars -var="environment=dev" -auto-approve  # Apply with auto-approve for dev
+          terraform apply -var-file=dev.tfvars -auto-approve
