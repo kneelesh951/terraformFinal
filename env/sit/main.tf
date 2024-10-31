@@ -22,9 +22,9 @@ terraform {
 # }
 
 # Call the step functions
- # module "step_functions" {
- #  source = "./modules/step_functions"  # Path to  Glue module 
- # }
+  module "step_functions" {
+   source = "./modules/step_functions"  # Path to  Glue module 
+  }
 
 #  # Call the secrets manager
 #  module "secrets_manager" {
