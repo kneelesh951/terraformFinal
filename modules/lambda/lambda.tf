@@ -33,6 +33,7 @@ resource "aws_lambda_function" "my_lambda" {
   timeout       = 3  # Timeout in seconds
   
   # Specify the code for the Lambda function
-  filename         = "modules/lambda/lambda_function.zip"  # Path to the zip file containing the Lambda code
-  source_code_hash = filebase64sha256("modules/lambda/lambda_function.zip")  # Hash of the zip file for change detection
+ # Specify the path to the zip file correctly
+  filename  = "${path.module}/lambda_function.zip"  # This uses the current module's path
+  source_code_hash = filebase64sha256("${path.module}/lambda_function.zip")  # Hash of the zip file for change detection
 }
