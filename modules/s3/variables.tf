@@ -19,5 +19,5 @@ variable "tmp_bucket_name" {
 variable "export_bucket_name" {
   description = "Name of the export S3 bucket"
   type        = string
-  default     = "test-export-oct24"  
+  default     = "test-export-oct24-31oct"  
 }
