@@ -6,7 +6,6 @@
   type        = string
 }
 
-
 # Terraform required version.
 terraform {
   required_providers {
@@ -19,7 +18,6 @@ terraform {
 # Call the S3 module
  module "s3_buckets" { 
     source = "../../modules/s3"  # Path to the S3 module
-
   }
 
 # Call the Glue module
