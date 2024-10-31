@@ -1,43 +1,58 @@
-name: Terraform Apply
+# Name of the workflow for production deployment
+name: Terraform Apply for Production
 
+# Define the trigger for the workflow
 on:
-  workflow_dispatch:  # This allows manual triggering.
+  workflow_dispatch:  # This allows manual triggering of the workflow from the GitHub Actions interface.
 
+# Define the job to be run as part of this workflow
 jobs:
   terraform:
-    name: Terraform Apply
-    runs-on: ubuntu-latest
+    name: Terraform Apply to PROD  # Job name, indicating this will apply the Terraform configuration for production
+    runs-on: ubuntu-latest  # Specifies the latest Ubuntu GitHub runner to execute the job on
 
+    # Permissions for GitHub OIDC and repository content
     permissions:
-      id-token: write  # Required for OIDC.
-      contents: read
+      id-token: write  # Permission to issue an OpenID Connect (OIDC) token to authenticate with AWS
+      contents: read   # Permission to read repository contents (required by GitHub Actions)
 
+    # Specify the environment name configured in GitHub
+    environment:
+      name: prod  # Links this job with the 'prod' environment for added security and control in GitHub
+
+    # Steps to execute in the job
     steps:
+      # Step 1: Check out the repository code
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3  # Uses the GitHub action to check out code from the repository
 
+      # Step 2: Configure AWS credentials with OIDC for secure authentication
       - name: Configure AWS credentials using OIDC
-        uses: aws-actions/configure-aws-credentials@v3
+        uses: aws-actions/configure-aws-credentials@v3  # Uses AWS action to configure OIDC-based AWS credentials
         with:
-          role-to-assume: ${{ secrets.AWS_DEV_ROLE_ARN }} #  IAM Role ARN
-          aws-region: ${{ secrets.AWS_REGION }}  # AWS region
+          role-to-assume: ${{ secrets.AWS_PROD_ROLE_ARN }}  # Assumes the IAM Role ARN for production, stored as a GitHub secret
+          aws-region: ${{ secrets.AWS_REGION }}  # Sets AWS region from a GitHub secret for better security
 
+      # Step 3: Set up Terraform environment
       - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v2  # Sets up the Terraform CLI in the workflow
         with:
-          terraform_version: 1.9.8  
+          terraform_version: 1.9.8  # Specifies the version of Terraform to use
 
+      # Step 4: Initialize Terraform (downloads necessary modules, providers, etc.)
       - name: Terraform Init
         run: |
-          
-          terraform init
+          cd env/prod  # Navigate to the production environment directory
+          terraform init  # Initialize Terraform in the 'prod' environment
 
+      # Step 5: Plan Terraform changes (outputs planned actions for review)
       - name: Terraform Plan
         run: |
-         
-          terraform plan
+          cd env/prod  # Navigate to the production environment directory
+          terraform plan -var-file=prod.tfvars  # Use the prod.tfvars file for environment-specific configurations
 
+      # Step 6: Apply the Terraform plan (provisions resources in production)
       - name: Terraform Apply
         run: |
-          
-          terraform apply -auto-approve
+          cd env/prod  # Navigate to the production environment directory
+          terraform apply -var-file=prod.tfvars -auto-approve  # Apply changes without manual approval, using prod.tfvars

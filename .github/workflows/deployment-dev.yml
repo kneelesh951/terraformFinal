@@ -36,6 +36,7 @@ jobs:
   
       - name: Create Lambda zip file
         run: |
+          cd modules/lambda 
           zip lambda_function.zip lambda_function.py  # Adjust if your file is named differently
           
       # Step 2: Configure AWS credentials with OIDC for authentication
