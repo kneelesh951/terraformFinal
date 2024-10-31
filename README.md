@@ -4,4 +4,8 @@ This repository contains Terraform configurations for managing AWS infrastructur
 
 ## Setup Instructions
 
+1) Clone the Repository:
+   Clone this repository to your local machine.
+
+   git clone <repository-url>
 
