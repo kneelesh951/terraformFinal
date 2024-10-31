@@ -28,6 +28,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3  # Uses the GitHub action to check out the code from the repository
 
+      # Step A : Add python to test lambda service :
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'  # Specify the Python version
+  
+      - name: Create Lambda zip file
+        run: |
+          zip lambda_function.zip lambda_function.py  # Adjust if your file is named differently
+          
       # Step 2: Configure AWS credentials with OIDC for authentication
       - name: Configure AWS credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v3  # Use AWS action for setting credentials
