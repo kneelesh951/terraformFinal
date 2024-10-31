@@ -9,12 +9,12 @@ terraform {
         }
   }
 }
-
-# module "s3_buckets" { 
- #   source = "../../modules/s3"  # Path to the S3 module
-  #  bucket_name= var. bucket_name
+# Call the s3 bucket
+ module "s3_buckets" { 
+    source = "../../modules/s3"  # Path to the S3 module
+   # bucket_name= var. bucket_name
    # environment = var.environment 
-  #}
+  }
 
 # Call the Glue module
 # module "test_glue" {
