@@ -1,7 +1,7 @@
 name: Terraform Apply for SIT
 
 on:
-  workflow_dispatch:  # This allows manual triggering
+  workflow_dispatch:  # This allows manual triggering.
 
 jobs:
   terraform:
@@ -13,7 +13,7 @@ jobs:
       contents: read
 
     environment:
-      name: sit  # Set to 'sit' to identify the GitHub environment .
+      name: sit  # Set to 'sit' to identify the GitHub environment.
 
     steps:
       - name: Checkout code
