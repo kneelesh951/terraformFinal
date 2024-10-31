@@ -10,11 +10,11 @@ terraform {
   }
 }
 
-# Call the S3 module
 # module "s3_buckets" { 
- #  source = "./modules/s3"  # Path to  S3 module .
-
- #  }
+ #   source = "../../modules/s3"  # Path to the S3 module
+  #  bucket_name= var. bucket_name
+   # environment = var.environment 
+  #}
 
 # Call the Glue module
 # module "test_glue" {
