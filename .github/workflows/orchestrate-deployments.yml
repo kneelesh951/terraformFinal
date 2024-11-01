@@ -1,0 +1,44 @@
+name: Orchestrate DEV , SIT and Prod Deployments
+
+on:
+  # Trigger after the completion of the Dev deployment workflow
+  workflow_run:
+    workflows: ["deployment-dev.yml"]  # Name of the Dev workflow file
+    types:
+      - completed  # Trigger when the Dev workflow completes
+
+jobs:
+  deploy-sit:
+    name: Trigger SIT Deployment
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}  # Only run if Dev was successful
+    steps:
+      - name: Trigger SIT Workflow
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const response = await github.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'deployment-sit.yml',  # SIT workflow file name
+              ref: 'main'
+            });
+            console.log('Triggered SIT workflow:', response);
+
+  deploy-prod:
+    name: Trigger Prod Deployment
+    runs-on: ubuntu-latest
+    needs: deploy-sit  # Only run after SIT completes
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}  # Only run if SIT was successful
+    steps:
+      - name: Trigger Prod Workflow
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const response = await github.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'deployment-prod.yml',  # Prod workflow file name
+              ref: 'main'
+            });
+            console.log('Triggered Prod workflow:', response);
