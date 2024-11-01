@@ -4,7 +4,7 @@
 
 # Create the input S3 bucket
 resource "aws_s3_bucket" "in_bucket" {
-  bucket = var.in_bucket_name  # Name of the input bucket
+  bucket = var.in_bucket_name  # Name of the input bucket.
 }
 
 # Create the output S3 bucket
