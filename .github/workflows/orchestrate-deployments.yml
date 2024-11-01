@@ -1,4 +1,4 @@
-name: Orchestrate DEV, SIT, and Prod Deployments
+name: Orchestrate SIT and Prod Deployments
 
 on:
   workflow_run:
