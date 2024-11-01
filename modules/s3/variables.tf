@@ -13,7 +13,7 @@ variable "out_bucket_name" {
 variable "tmp_bucket_name" {
   description = "Name of the temporary S3 bucket"
   type        = string
-  default     = "test-tmp-oct24"
+  default     = "test-tmp-oct24-1Nov"
 }
 
 variable "export_bucket_name" {
