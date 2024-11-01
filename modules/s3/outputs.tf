@@ -11,5 +11,5 @@ output "tmp_bucket_arn" {
 }
 
 output "export_bucket_arn" {
-  value = aws_s3_bucket.export_bucket.arn  # ARN of the export bucket
+  value = aws_s3_bucket.export_bucket.arn  # ARN of the export bucket.
 }
