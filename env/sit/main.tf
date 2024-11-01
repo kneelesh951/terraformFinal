@@ -23,7 +23,7 @@ terraform {
 
 # Call the step functions
   module "step_functions" {
-   source = "./modules/step_functions"  
+   source = "../../modules/step_functions"  
   }
 
 #  # Call the secrets manager
