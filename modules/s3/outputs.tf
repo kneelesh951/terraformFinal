@@ -3,11 +3,11 @@ output "in_bucket_arn" {
 }
 
 output "out_bucket_arn" {
-  value = aws_s3_bucket.out_bucket.arn  # ARN of the output bucket
+  value = aws_s3_bucket.out_bucket.arn  # ARN of the output bucket.
 }
 
 output "tmp_bucket_arn" {
-  value = aws_s3_bucket.tmp_bucket.arn  # ARN of the temporary bucket
+  value = aws_s3_bucket.tmp_bucket.arn  # ARN of the temporary bucket.
 }
 
 output "export_bucket_arn" {
