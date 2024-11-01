@@ -18,10 +18,10 @@ terraform {
   }
 
   
-# Call the Glue module
- module "test_glue" {
-   source = "../../modules/test_glue"  # Path to  Glue module 
- }
+# # Call the Glue module
+#  module "test_glue" {
+#    source = "../../modules/test_glue"  # Path to  Glue module 
+#  }
 
 # Call the step functions
  # module "step_functions" {
