@@ -1,4 +1,4 @@
-# main.tf
+# main.tf for Prod
 
 
 
@@ -25,15 +25,15 @@ terraform {
 
 # Call the step functions
  # module "step_functions" {
- #  source = "./modules/step_functions"  # Path to  step functions 
+ #  source = "../../modules/step_functions"  # Path to  step functions 
  # }
 
 #  # Call the secrets manager
 #  module "secrets_manager" {
-#   source = "./modules/secrets_manager"  # Path to  secrets manager
+#   source = "../../modules/secrets_manager"  # Path to  secrets manager
 #  }
 
   # Call the vpc manager
  #module "vpc" {
-  #source = "./modules/vpc"  # Path to  vpc
+  #source = "../../modules/vpc"  # Path to  vpc
  #}

@@ -1,5 +1,5 @@
  
- # main.tf
+ # main.tf for SIT
 
 # Terraform required version.
 terraform {
