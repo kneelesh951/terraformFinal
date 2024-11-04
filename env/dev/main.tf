@@ -42,3 +42,9 @@ terraform {
  #module "vpc" {
   #source = "./modules/vpc"  # Path to  vpc
  #}
+
+# Call the redshift module/* 
+#  module "redshift " { 
+ #   source = "../../modules/redshift"  # Path to the redshift module
+  
+  #} 
