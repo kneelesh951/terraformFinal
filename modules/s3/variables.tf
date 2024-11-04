@@ -4,7 +4,7 @@ variable "in_bucket_name" {
   default     = "test-in-oct241"  # Change this as needed for your environment
 }
 
-variable "out_bucket_name" {
+/* variable "out_bucket_name" {
   description = "Name of the output S3 bucket"
   type        = string
   default     = "test-out-oct241"  # Change this as needed for your environment
@@ -21,3 +21,4 @@ variable "export_bucket_name" {
   type        = string
   default     = "test-export-oct241"  # Change this as needed for your environment
 }
+ */

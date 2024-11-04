@@ -1,5 +1,5 @@
  
- # main.tf
+ # main.tf for SIT
 
 # Terraform required version.
 terraform {
@@ -12,8 +12,7 @@ terraform {
 # Call the s3 bucket
  module "s3_buckets" { 
     source = "../../modules/s3"  # Path to the S3 module
-   # bucket_name= var. bucket_name
-   # environment = var.environment 
+   
   }
 
 # Call the Glue module
@@ -22,16 +21,16 @@ terraform {
 # }
 
 # Call the step functions
-  module "step_functions" {
-   source = "../../modules/step_functions"  
-  }
+  # module "step_functions" {
+  #  source = "../../modules/step_functions"  
+  # }
 
 #  # Call the secrets manager
 #  module "secrets_manager" {
 #   source = "./modules/secrets_manager"  # Path to  Glue module 
 #  }
 
-  # Call the vpc manager
- module "vpc" {
-  source = "./modules/vpc"  # Path to  Glue module 
- }
+#   # Call the vpc manager
+#  module "vpc" {
+#   source = "../../modules/modules/vpc"  # Path to  Glue module 
+#  }
