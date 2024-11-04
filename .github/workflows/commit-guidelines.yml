@@ -1,0 +1,40 @@
+name: Commit Guidelines Check
+
+# Trigger the workflow only when merging a feature branch into the main branch
+on:
+  pull_request:
+    branches:
+      - main  # Only run on pull requests targeting the main branch
+    paths-ignore:
+      - '**/README.md'  # Ignore specific paths if desired
+
+permissions:
+  contents: read
+
+jobs:
+  commit-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Fetch full history for accurate commit message checking
+
+      - name: Check Commit Messages
+        shell: bash
+        run: |
+          # Define minimum character length for commit messages
+          min_length=10
+          
+          # Get commit messages in the current pull request (full history fetched above)
+          commit_messages=$(git log --format=%s origin/main..HEAD)
+          
+          # Loop over each commit message to check if it meets length requirements
+          for message in $commit_messages; do
+            if [ ${#message} -lt $min_length ]; then
+              echo "Commit message '$message' is too short! Each commit message must be at least $min_length characters."
+              exit 1  # Fail if any message is too short
+            fi
+          done
+
+          echo "All commit messages meet the minimum length requirement."

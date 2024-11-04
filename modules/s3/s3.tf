@@ -21,4 +21,7 @@ resource "aws_s3_bucket" "tmp_bucket" {
 resource "aws_s3_bucket" "export_bucket" {
   bucket = var.export_bucket_name  # Name of the export bucket
 }
- */
+
+# Create the mbb S3 bucket
+resource "aws_s3_bucket" "mbb_bucket" {
+  bucket = var.mbb_bucket_name  # Name of the export bucket
