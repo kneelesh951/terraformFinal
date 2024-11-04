@@ -21,10 +21,10 @@ variable "export_bucket_name" {
   type        = string
   default     = "test-export-oct241"  # Change this as needed for your environment
 }
-
+*/
 variable "mbb_bucket_name" {
   description = "Name of the mbb S3 bucket"
   type        = string
   default     = "MBB"  # Change this as needed for your environment
 }
- */
+ 

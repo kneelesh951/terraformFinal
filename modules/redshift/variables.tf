@@ -4,7 +4,7 @@ variable "namespace_name" {
   default     = "datawarehouse"
 }
 
-variable "admin_user_name" {
+variable "adminuser" {
   description = "The admin user name for Redshift"
   type        = string
   default     = "admin"

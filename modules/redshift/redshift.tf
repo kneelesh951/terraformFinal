@@ -1,8 +1,9 @@
 
 resource "aws_redshiftserverless_namespace" "redshift" {
+  # admin_user_name    = var.adminuser
   namespace_name       = var.namespace_name
   admin_user_password  = var.admin_user_password
-  admin_user_name      = var.admin_user_name
+  
 }
 
 resource "aws_security_group" "redshift_sg" {
