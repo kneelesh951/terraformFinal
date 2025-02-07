@@ -77,7 +77,7 @@ jobs:
 
   sonarqube:
     name: SonarQube Scan
-    runs-on: macos-latest
+    runs-on: ubuntu-latest  # Switched to Ubuntu for better compatibility
 
     steps:
       - name: Checkout Code
@@ -89,3 +89,10 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: "https://sonarcloud.io"
+        with:
+          args: >
+            -Dsonar.projectKey=kneelesh951_terraformFinal
+            -Dsonar.organization=kneelesh951
+            -Dsonar.sources=.
+            -Dsonar.host.url=https://sonarcloud.io
