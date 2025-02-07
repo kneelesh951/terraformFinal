@@ -1,71 +1,91 @@
 # Name of the workflow
-name: Terraform Apply for Development
+name: Terraform Apply for Development and SonarQube Scan
 
 # Define when the workflow should be triggered
 on:
   push:
     branches:
-      - main  # Trigger the workflow when there are changes pushed to the 'main' branch
+      - main  # Trigger when changes are pushed to 'main'
+  pull_request:
+    types: [opened, synchronize, reopened]  # Run on PR updates
 
-# Define the job for the Terraform deployment
+# Define jobs
 jobs:
   terraform:
-    name: Terraform Apply to Development  # Job name for applying Terraform to the dev environment
-    runs-on: ubuntu-latest  # Run the job on the latest Ubuntu GitHub runner
+    name: Terraform Apply to Development
+    runs-on: ubuntu-latest
 
-    # Set required permissions for accessing GitHub OIDC and AWS
     permissions:
-      id-token: write  # Permission to issue an OpenID Connect (OIDC) token to authenticate to AWS
-      contents: read   # Access to read contents from the GitHub repository
+      id-token: write
+      contents: read
 
-    # Specify the environment name configured in GitHub
     environment:
-      name: dev  # Set to 'dev' to identify the GitHub environment and associate it with this job
+      name: dev
 
-    # Steps to execute the job
     steps:
-      # Step 1: Check out the repository code
+      # Step 1: Checkout repository code
       - name: Checkout code
-        uses: actions/checkout@v3  # Uses the GitHub action to check out the code from the repository
+        uses: actions/checkout@v3
 
-      # Step A : Add python to test lambda service :
+      # Step 2: Set up Python for Lambda packaging
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'  # Specify the Python version
-  
+          python-version: '3.8'
+
       - name: Create Lambda zip file
         run: |
-          cd modules/lambda 
-          zip lambda_function.zip lambda_function.py  # lambda file path 
-          
-      # Step 2: Configure AWS credentials with OIDC for authentication
+          cd modules/lambda
+          zip lambda_function.zip lambda_function.py
+
+      # Step 3: Configure AWS credentials using OIDC
       - name: Configure AWS credentials using OIDC
-        uses: aws-actions/configure-aws-credentials@v3  # Use AWS action for setting credentials
+        uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: ${{ secrets.AWS_DEV_ROLE_ARN }}  # IAM Role ARN for development environment (stored as a secret)
-          aws-region: ${{ secrets.AWS_REGION }}  # AWS region (stored as a secret)
+          role-to-assume: ${{ secrets.AWS_DEV_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-      # Step 3: Set up Terraform
+      # Step 4: Set up Terraform
       - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v2  # Use Terraform GitHub action for setup
+        uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.9.8  # Specify the Terraform version to use
+          terraform_version: 1.9.8
 
-      # Step 4: Initialize Terraform (downloads modules, providers, etc.)
+      # Step 5: Initialize Terraform
       - name: Terraform Init
         run: |
-          cd env/dev  # Navigate to the 'dev' environment directory
-          terraform init  # Initialize Terraform for the 'dev' environment
+          cd env/dev
+          terraform init
 
-      # Step 5: Plan the Terraform changes (outputs the actions Terraform will take)
+      # Step 6: Validate Terraform
+      - name: Terraform Validate
+        run: |
+          cd env/dev
+          terraform validate
+
+      # Step 7: Terraform Plan
       - name: Terraform Plan
         run: |
-          cd env/dev  # Navigate to the 'dev' environment directory
+          cd env/dev
           terraform plan -var-file=dev.tfvars
 
-      # Step 6: Apply the Terraform configuration (provisions the resources)
+      # Step 8: Terraform Apply
       - name: Terraform Apply
         run: |
-          cd env/dev  # Navigate to the 'dev' environment directory
+          cd env/dev
           terraform apply -var-file=dev.tfvars -auto-approve
+
+  sonarqube:
+    name: SonarQube Scan
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensures better analysis accuracy
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
