@@ -1,6 +1,6 @@
 # root/main.tf
 
-# Define the environment variable to choose which environment to deploy
+# Define the environment variable to choose which environment to deploy.
 variable "environment" {
   description = "The environment to deploy (dev, sit, prod)"
   type        = string
