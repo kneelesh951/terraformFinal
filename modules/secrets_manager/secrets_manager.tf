@@ -1,4 +1,4 @@
-# Create a new secret in AWS Secrets Manager
+# Create a new secret in AWS Secrets Manager--
 resource "aws_secretsmanager_secret" "example_secret" {
   name        = "example_secret"  # Name of the secret
   description = "An example secret to store API key"  # Description to help identify the secret
